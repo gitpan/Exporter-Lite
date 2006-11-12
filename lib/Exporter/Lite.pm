@@ -7,7 +7,7 @@ require 5.004;
 #use strict 'vars';  # we're going to be doing a lot of sym refs
 #use vars qw($VERSION @EXPORT);
 
-$VERSION = 0.01;
+$VERSION = 0.02;
 @EXPORT = qw(import);   # we'll know pretty fast if it doesn't work :)
 
 
@@ -80,6 +80,7 @@ sub _not_exported {
 1;
 
 __END__
+
 =head1 NAME
 
 Exporter::Lite - Lightweight exporting of variables
@@ -181,8 +182,15 @@ qw(Exporter)> is kinda nice.
 
 Michael G Schwern <schwern@pobox.com>
 
+=head1 LICENSE
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+See F<http://www.perl.com/perl/misc/Artistic.html>
+
 =head1 SEE ALSO
 
-L<Exporter>, L<UNIVERSAL::exports>
+L<Exporter>, L<Exporter::Simple>, L<UNIVERSAL::exports>
 
 =cut
