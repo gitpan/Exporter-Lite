@@ -1,20 +1,18 @@
 package Exporter::Lite;
 
-require 5.004;
+require 5.006;
+use warnings;
+use strict;
 
-# Using strict or vars almost doubles our load time.  Turn them back
-# on when debugging.
-#use strict 'vars';  # we're going to be doing a lot of sym refs
-#use vars qw($VERSION @EXPORT);
-
-$VERSION = 0.02;
-@EXPORT = qw(import);   # we'll know pretty fast if it doesn't work :)
-
+our $VERSION = '0.02_01';
+our @EXPORT = qw(import);
 
 
 sub import {
     my($exporter, @imports)  = @_;
     my($caller, $file, $line) = caller;
+
+    no strict 'refs';
 
     unless( @imports ) {        # Default import.
         @imports = @{$exporter.'::EXPORT'};
@@ -48,6 +46,8 @@ sub import {
 
 sub _export {
     my($caller, $exporter, @imports) = @_;
+
+    no strict 'refs';
 
     # Stole this from Exporter::Heavy.  I'm sure it can be written better
     # but I'm lazy at the moment.
@@ -132,7 +132,7 @@ You have to ask for them.  C<use My::Module qw($Foo bar)>.
 =head1 Methods
 
 Export::Lite has one public method, import(), which is called
-automaticly when your modules is use()'d.  
+automatically when your modules is use()'d.  
 
 In normal usage you don't have to worry about this at all.
 
@@ -177,6 +177,10 @@ Exporter.  I know its at least on par.
 
 OTOH, the docs are much clearer and not having to say C<@ISA =
 qw(Exporter)> is kinda nice.
+
+=head1 REPOSITORY
+
+L<https://github.com/neilbowers/Exporter-Lite>
 
 =head1 AUTHORS
 
