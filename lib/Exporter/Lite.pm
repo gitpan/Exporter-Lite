@@ -4,7 +4,7 @@ require 5.006;
 use warnings;
 use strict;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our @EXPORT = qw(import);
 
 
@@ -193,6 +193,9 @@ L<Const::Exporter> makes it easy to create a module that exports constants.
 
 L<Constant::Exporter> is another module that makes it easy to create
 modules that define and export constants.
+
+L<Constant::Exporter::Lazy> lets you write a module that exports
+function-style constants, which are instantiated lazily.
 
 L<Exporter::Auto> will export everything from your module that
 it thinks is a public function (name doesn't start with an underscore).

@@ -24,4 +24,4 @@ requires:
   warnings: 0
 resources:
   repository: git://github.com/neilbowers/Exporter-Lite.git
-version: 0.03
+version: 0.04
