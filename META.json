@@ -4,7 +4,7 @@
       "unknown"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.9, CPAN::Meta::Converter version 2.133380",
+   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.141170",
    "license" : [
       "perl_5"
    ],
@@ -51,5 +51,5 @@
          "web" : "https://github.com/neilbowers/Exporter-Lite"
       }
    },
-   "version" : "0.04"
+   "version" : "0.05"
 }

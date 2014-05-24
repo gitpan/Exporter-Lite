@@ -4,7 +4,7 @@ require 5.006;
 use warnings;
 use strict;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 our @EXPORT = qw(import);
 
 
@@ -102,32 +102,40 @@ Exporter::Lite - Lightweight exporting of variables
 
 =head1 DESCRIPTION
 
-This is an alternative to Exporter intended to provide a lightweight
-subset of its functionality.  It supports C<import()>, C<@EXPORT> and
+Exporter::Lite is an alternative to L<Exporter>,
+intended to provide a lightweight subset
+of the most commonly-used functionality.
+It supports C<import()>, C<@EXPORT> and
 C<@EXPORT_OK> and not a whole lot else.
 
-Unlike Exporter, it is not necessary to inherit from Exporter::Lite
-(ie. no C<@ISA = qw(Exporter::Lite)> mantra).  Exporter::Lite simply
-exports its import() function.  This might be called a "mix-in".
+Unlike Exporter, it is not necessary to inherit from Exporter::Lite;
+Ie you don't need to write:
+
+ @ISA = qw(Exporter::Lite);
+
+Exporter::Lite simply exports its import() function into your namespace.
+This might be called a "mix-in" or a "role".
 
 Setting up a module to export its variables and functions is simple:
 
     package My::Module;
     use Exporter::Lite;
 
-    @EXPORT = qw($Foo bar);
+    our @EXPORT = qw($Foo bar);
 
-now when you C<use My::Module>, C<$Foo> and C<bar()> will show up.
+Now, when you C<use My::Module>, C<$Foo> and C<bar()> will show up.
 
-In order to make exporting optional, use @EXPORT_OK.
+In order to make exporting optional, use C<@EXPORT_OK>:
 
     package My::Module;
     use Exporter::Lite;
 
-    @EXPORT_OK = qw($Foo bar);
+    our @EXPORT_OK = qw($Foo bar);
 
-when My::Module is used, C<$Foo> and C<bar()> will I<not> show up.
-You have to ask for them.  C<use My::Module qw($Foo bar)>.
+When My::Module is used, C<$Foo> and C<bar()> will I<not> show up.
+You have to ask for them.
+
+    use My::Module qw($Foo bar);
 
 =head1 Methods
 
@@ -180,7 +188,7 @@ qw(Exporter)> is kinda nice.
 
 =head1 SEE ALSO
 
-L<Exporter> is the grandaddy of all Exporter module, and bundled with Perl
+L<Exporter> is the grandaddy of all Exporter modules, and bundled with Perl
 itself, unlike the rest of the modules listed here.
 
 L<Attribute::Exporter> defines attributes which you use to mark
@@ -194,6 +202,24 @@ L<Const::Exporter> makes it easy to create a module that exports constants.
 L<Constant::Exporter> is another module that makes it easy to create
 modules that define and export constants.
 
+L<Sub::Exporter> is a "sophisticated exporter for custom-built routines";
+it lets you provide generators that can be used to customise what
+gets imported when someone uses your module.
+
+L<Exporter::Tiny> provides the same features as L<Sub::Exporter>,
+but relying only on core dependencies.
+
+L<Exporter::Shiny> is a shortcut for L<Exporter::Tiny> that
+provides a more concise notation for providing optional exports.
+
+L<Exporter::Declare> provides syntactic sugar to make the export
+status of your functions part of their declaration. Kind of.
+
+L<AppConfig::Exporter> lets you export part of an L<AppConfig>-based
+configuration.
+
+L<Exporter::Lexical> lets you export lexical subs from your module.
+
 L<Constant::Exporter::Lazy> lets you write a module that exports
 function-style constants, which are instantiated lazily.
 
@@ -203,6 +229,7 @@ it thinks is a public function (name doesn't start with an underscore).
 L<Class::Exporter> lets you export class methods as regular subroutines.
 
 L<Xporter> is like Exporter, but with persistent defaults and auto-ISA.
+
 
 =head1 REPOSITORY
 
