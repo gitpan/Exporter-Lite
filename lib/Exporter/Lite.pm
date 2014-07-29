@@ -4,7 +4,7 @@ require 5.006;
 use warnings;
 use strict;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 our @EXPORT = qw(import);
 
 
@@ -83,22 +83,24 @@ __END__
 
 =head1 NAME
 
-Exporter::Lite - Lightweight exporting of variables
+Exporter::Lite - lightweight exporting of functions and variables
 
 =head1 SYNOPSIS
 
   package Foo;
   use Exporter::Lite;
 
-  # Just like Exporter.
-  @EXPORT       = qw($This That);
-  @EXPORT_OK    = qw(@Left %Right);
+  our @EXPORT    = qw($This That);      # default exports
+  our @EXPORT_OK = qw(@Left %Right);    # optional exports
 
+Then in code using the module:
 
-  # Meanwhile, in another piece of code!
-  package Bar;
-  use Foo;  # exports $This and &That.
+  use Foo;
+  # $This and &That are imported here
 
+You have to explicitly ask for optional exports:
+
+ use Foo qw/ @Left %Right /;
 
 =head1 DESCRIPTION
 
@@ -123,19 +125,34 @@ Setting up a module to export its variables and functions is simple:
 
     our @EXPORT = qw($Foo bar);
 
+Functions and variables listed in the C<@EXPORT> package variable
+are automatically exported if you use the module and don't explicitly
+list any imports.
 Now, when you C<use My::Module>, C<$Foo> and C<bar()> will show up.
 
-In order to make exporting optional, use C<@EXPORT_OK>:
+Optional exports are listed in the C<@EXPORT_OK> package variable:
 
     package My::Module;
     use Exporter::Lite;
 
     our @EXPORT_OK = qw($Foo bar);
 
-When My::Module is used, C<$Foo> and C<bar()> will I<not> show up.
-You have to ask for them.
+When My::Module is used, C<$Foo> and C<bar()> will I<not> show up,
+unless you explicitly ask for them:
 
     use My::Module qw($Foo bar);
+
+Note that when you specify one or more functions or variables to import,
+then you must also explicitly list any of the default symbols you want to use.
+So if you have an exporting module:
+
+    package Games;
+    our @EXPORT    = qw/ pacman defender  /;
+    our @EXPORT_OK = qw/ galaga centipede /;
+
+Then if you want to use both C<pacman> and C<galaga>, then you'd write:
+
+    use Games qw/ pacman galaga /;
 
 =head1 Methods
 
@@ -178,13 +195,6 @@ wasn't recognized).
 
 =back
 
-=head1 BUGS and CAVEATS
-
-Its not yet clear if this is actually any lighter or faster than
-Exporter.  I know its at least on par.
-
-OTOH, the docs are much clearer and not having to say C<@ISA =
-qw(Exporter)> is kinda nice.
 
 =head1 SEE ALSO
 
